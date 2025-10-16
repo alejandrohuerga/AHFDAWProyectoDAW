@@ -44,7 +44,10 @@
           - [Cambiamos los permisos para acceso a archivos](#cambiamos-los-permisos-para-acceso-a-archivos)
         - [Virtual Hosts](#virtual-hosts)
         - [Permisos y usuarios](#permisos-y-usuarios)
-      - [1.1.3 PHP](#113-php)
+      - [1.1.3 PHP -FPM](#113-php--fpm)
+        - [Instalación](#instalación-1)
+        - [Configuración](#configuración)
+        - [Monitorización](#monitorización)
       - [1.1.4 MySQL](#114-mysql)
       - [1.1.5 XDebug](#115-xdebug)
       - [1.1.6 Servidor web seguro (HTTPS)](#116-servidor-web-seguro-https)
@@ -58,6 +61,7 @@
         - [**Cuentas administradoras**](#cuentas-administradoras-1)
       - [1.2.2 **Navegadores**](#122-navegadores)
       - [1.2.3 **MobaXterm**](#123-mobaxterm)
+        - [Configuración](#configuración-1)
       - [1.2.4 **Netbeans**](#124-netbeans)
           - [Creación , eliminación y modificación de proyectos:](#creación--eliminación-y-modificación-de-proyectos)
       - [1.2.5 **Visual Studio Code**](#125-visual-studio-code)
@@ -292,7 +296,8 @@ sudo chmod -R 775 /var/www/html
 ##### Virtual Hosts
 ##### Permisos y usuarios
 
-#### 1.1.3 PHP
+#### 1.1.3 PHP -FPM
+##### Instalación 
 
 En este apartado vamos a ver la forma de instalar el servicio de php en nuestro Ubuntu Server con Apache instalado.
 
@@ -374,6 +379,8 @@ Veremos la información de nuestro servicio Php
 
 ![Alt](images/info%20de%20la%20pagina%20info.php.png)
 
+##### Configuración
+
 11. Vamos al siguiente directorio
 
 ```bash
@@ -418,7 +425,13 @@ sudo systemctl restart php8.3-fpm
 ```
 17. Volvemos a mirar en el navegador si el documento info.php ha cambiado.
 
+##### Monitorización 
 
+18. Para comprobar si el módulo de php-fpm esta activo utilizamos el siguiente comando
+
+```bash
+sudo systemctl status php8.3-fpm
+```
 
 #### 1.1.4 MySQL
 #### 1.1.5 XDebug
@@ -441,6 +454,23 @@ sudo systemctl restart php8.3-fpm
 MobaXterm nos va a permitir conectarnos a nuestra maquina virtual Ubuntu Server con un servidor Apache mediante SSH para asi poder administrar desde el MobaXterm el servidor.
 
 También nos va a permitir la subida , eliminación y edicción de archivos en nuestro servidor.
+
+##### Configuración
+
+**CONEXION SFTP**
+
+Lo primero que debemos hacer es dirigirnos a Sessions arriba a la izquierda de nuestro MobaXterm.
+
+![Alt](images/Conexion%20SFTP%20moba.PNG)
+
+Como se indica en la imagen debemos poner la IP del servidor y el Puerto.
+
+![Alt](images/Configuracion%20SFCT%20Ip.PNG)
+
+Posteriormente le daremos a "OK" y comprobamos si ha sido exitosa.
+
+![Alt](images/comprobación%20conexión%20SFTP.PNG)
+
 
 **CONEXIÓN SSH**
 
@@ -577,4 +607,3 @@ El ultimo paso es el borrado del proyecto en el MobaXterm.
 > **Alejandro De la Huerga Fernández**  
 > Curso: 2025/2026  
 > 2º Curso CFGS Desarrollo de Aplicaciones Web  
-
