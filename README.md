@@ -436,6 +436,80 @@ sudo systemctl status php8.3-fpm
 #### 1.1.4 MySQL
 #### 1.1.5 XDebug
 #### 1.1.6 Servidor web seguro (HTTPS)
+Creación de los certificados SSL en apache.
+
+Se actualiza el servidor
+```bash
+sudo apt update
+```
+```bash
+sudo apt upgrade
+```
+Se crea el certificado SSL(Se pueden cambiar el nombre de los ficheros)
+```bash
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/apache-ahf-used.key -out /etc/ssl/certs/ahf-used.crt
+```
+
+Hay que rellenar la infomracion solicitada
+
+```bash
+Country Name (2 letter code) [AU]:ES
+State or Province Name (full name) [Some-State]:ZAMORA
+Locality Name (eg, city) []:BENAVENTE
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:IES LOS SAUCES
+Organizational Unit Name (eg, section) []:INFORMATICA
+Common Name (e.g. server FQDN or YOUR name) []:ahf-used
+Email Address []:alejandro.huefer@educa.jcyl.es
+```
+
+Se reinicia apache2
+```bash
+sudo systemctl restart apache2 
+```
+
+Se entra en la carpeta /etc/apache2/sites-available/
+```bash
+cd /etc/apache2/sites-available/
+ls
+```
+Se hace una copia del archivo default-ssl.conf
+```bash
+sudo cp default-ssl.conf ahf-used.conf
+ls
+```
+Se modifican los nombres de los archivos
+
+```bash
+ #   SSLCertificateFile directive is needed.
+        SSLCertificateFile      /etc/ssl/certs/ahf-used.crt
+        SSLCertificateKeyFile   /etc/ssl/private/apache-ahf-used.key
+ #   Server Certificate Chain:
+ls
+```
+
+```bash
+sudo a2ensite ahf-used.conf
+ls
+```
+ Se reinicia el servicio apache
+```bash
+sudo systemctl restart apache2
+ls
+```
+ Se habilita el puerto 443
+ ```bash
+sudo ufw allow 443
+ls
+```
+
+Se borra el puerto 443 v6
+```bash
+sudo ufw status numbered
+```
+```bash
+sudo ufw delete numeroproceso
+```
+
 #### 1.1.7 DNS
 #### 1.1.8 SFTP
 #### 1.1.9 Apache Tomcat
