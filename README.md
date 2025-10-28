@@ -493,7 +493,7 @@ sudo systemctl restart mariadb
 | **Ver versión instalada**          | `mariadb --version`              | Muestra la versión actual de MariaDB instalada.              |
 
 
-**Ver puerto utilizado por MariaDB**
+**Ver puerto utilizado por MariaDB por consola**
 
 MariaDB utiliza por defecto el puerto 3306/tcp
 
@@ -502,6 +502,150 @@ sudo ss -punta | grep mariadb
 ```
 
 ![Alt](/images/puerto%20mariadb.PNG)
+
+**Tambien lo podemos ver por consola de MariaDB:**
+
+Entramos al cliente: 
+
+```bash
+sudo mariadb
+```
+
+Ejecutamos el siguiente comando: 
+
+```bash
+SHOW VARIABLES LIKE 'port';
+```
+
+Nos saldra el siguiente resultado: 
+
+Nos muestra como resultado:
+
+| Variable_name | Value |
+| --------------- | ------ |
+| port          | 3306  |
+
+**Creación del usuario administrador con password**
+
+Entramos a la consola de MariaDB:
+
+```bash
+sudo mariadb
+```
+
+Creamos el usuario accesible desde todas las IP y con password: 
+
+```bash
+CREATE USER 'adminsql'@'%' IDENTIFIED BY 'password';
+```
+
+Le damos el privilegio de dar privilegios (root):
+
+```bash
+GRANT ALL ON *.* TO 'adminsql'@'%' WITH GRANT OPTION;
+```
+
+Listamos los usuarios: 
+
+```bash
+SELECT User, Host FROM mysql.user;
+```
+
+![Alt](images/datos%20de%20usuarios%20maridb.PNG)
+
+**Instalación del módulo MariaDB para PHP**
+
+Este módulo permite PHP conectarse con bases de datos MySQL y MariaDB , sin este modulo PHP no seria capaz de hacer ningún tipo de operación en la base datos ya sea escribir , borrar o actualizar.
+
+Mostramos que extensión tenemos antes de la instalación:
+
+```bash
+sudo php -m | grep mysql
+```
+
+Instalamos el módulo:
+
+```bash
+sudo apt install php8.3-mariadb
+```
+
+```bash
+sudo systemctl restart php-fpm
+```
+
+| Módulo | Propósito | Estado actual |
+| --- | :---- | :----- |
+| php-mysql | Módulo antiguo (mezclaba mysql y mysqli) | Obsoleto desde PHP/
+| php-mysqli | Extensión mejorada orientada a MySQL/MariaDB | Activa y recomendada
+| php-pdo-mysql | Permite conexión vía PDO(interfaz orientada a objetos y más segunra) | Activa y recomendada
+
+Volvemos a mostrar las extensiones que hemos instalado: 
+
+```bash
+sudo php -m | grep mysql
+```
+
+![Alt](images/extensionesmysqlinstaladas.PNG)
+
+
+**Asegurar el servidor MariaDB**
+
+Para configurar la seguridad del servidor de MariaDB debemos realizar una seria de pasos y responder una serie de preguntas de la siguiente manera: 
+
+Escribimos el siguiente comando: 
+
+```bash
+sudo mysql_secure_installation
+```
+
+Sigue las indicaciones para establecer la contraseña de root, eliminar usuarios anónimos, deshabilitar el inicio de sesión remoto de root, eliminar bases de datos de prueba y recargar las tablas de privilegios.
+ continuación realizará una serie de cuestiones:
+
+* En el primer paso preguntará por la contraseña de `root` para MariaDB, pulsa la tecla `Enter` ya que no hay contraseña definida.
+* La siguiente, preguntará si quieres asignar una contraseña para el usuario “root”. Es recomendable usar una contraseña.
+* En el tercer paso preguntará si quieres eliminar `usuario anónimo`, aquí indica que `Sí` quieres borrar los datos.
+* Después preguntará si quieres desactivar el acceso remoto del usuario “root”, aquí indica que `Sí` quieres desactivar acceso remoto para usuario por seguridad.
+* De nuevo preguntará si quieres eliminar la base de datos `test`, aquí indica de nuevo que Sí quieres borrar las base de datos de prueba.
+* Por último, preguntará si quieres recargar privilegios, aquí indica que `Sí`.
+
+**Módulo de php8.3-intl**
+
+Módulo que permite que PHP muestre información adaptada a la región e idioma, sin que tengas que hacerlo manualmente.
+
+**Funciones principales php-intl**
+
+| Funcionalidad | Descripción | Ejemplo |
+| ----- | ----- | ----- |
+| Formateo de fechas y horas | Muestra las fechas según el idioma o país | 27 de octubre de 2025(es) / October 27,2025(en) |
+| Formateo de número | Muestra separaciones decimales y miles según región | 1.220,66 (es_ES), 1,2220.66 (en_US)|
+|monedas | Formatea precios automáticamente según el país | € 1.200,50 / $ 1,200,50|
+| Traducción y comparación de cadenas | Ordena y compara texto con reglas locales | útil para ordenar palabras con acentos |
+|Normalización Unicode | Asegura que caracteres acentuados o especiales se comparen correctamente | útil para búsquedas y validaciones |
+
+**Instalación del módulo php8.3-intl**
+
+```bash
+sudo install php8.3-intl
+```
+
+Reiniciamos el servicio
+
+```bash
+sudo systemctl restart php8.3-fpm
+```
+
+Abrimos el siguiente documento `php.ini`: 
+
+```bash
+sudo nano /etc/php/8.3/apache2/php.ini
+```
+
+En el documento buscaremos la siguiente linea `date.timezone`: 
+
+```bash
+date.timezone=Europe/Madrid
+```
+
 
 #### 1.1.5 XDebug
 #### 1.1.6 Servidor web seguro (HTTPS)
