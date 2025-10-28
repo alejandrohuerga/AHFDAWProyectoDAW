@@ -48,7 +48,7 @@
         - [Instalación](#instalación-1)
         - [Configuración](#configuración)
         - [Monitorización](#monitorización)
-      - [1.1.4 MySQL](#114-mysql)
+      - [1.1.4 MariaDB](#114-mariadb)
       - [1.1.5 XDebug](#115-xdebug)
       - [1.1.6 Servidor web seguro (HTTPS)](#116-servidor-web-seguro-https)
       - [1.1.7 DNS](#117-dns)
@@ -433,7 +433,76 @@ sudo systemctl restart php8.3-fpm
 sudo systemctl status php8.3-fpm
 ```
 
-#### 1.1.4 MySQL
+#### 1.1.4 MariaDB 
+> **MariaDB** es un **sistema de gestión de bases de datos relacional (RDBMS)**, muy similar a MySQL, permitiendo almacenar, organizar y acceder a información mediante el **lenguaje SQL (Structured Query Language)**.
+> Es una alternativa moderna y abierta a MySQL, muy usada en servidores web, aplicaciones empresariales y sistemas en la nube.
+>
+
+**Instalación de MariaDB**
+
+En consola escribimos el siguiente comando para realizar la instalación.
+
+```bash
+sudo apt update
+sudo apt install mariadb-server -y
+```
+
+**Fichero de configuración MariaDB**
+
+Los diferentes ficheros de configuración se encuentran en el directorio : `/etc/mysql/mariadb.conf.d`
+
+El archivo principal de configuración : `50-server.cnf` , en este archivo esta definido el puerto , podemos encontrarlo buscando la linea `port=3306`
+
+**Configurar el acceso remoto**
+
+Por defecto la configuración de MariaDB no permite el acceso remoto.
+Esto permitira la conexión a la base de datos de MariaDB desde otros equipos o dispositivos , en nuestro caso desde NetBeans.
+
+Para cambiar la configuración debemos de abrir el siguiente archivo: `50-server.cnf`
+
+Para ello ejecutaremos el siguiente comando :
+
+```bash
+sudo nano /etc/mysql/mariadb.conf.d/50-server.cnf
+```
+
+Dentro del fichero buscaremos la línea : `bind-address = 127.0.0.1` y  cambiaremos la IP por: 
+
+```bash
+bind-address = 0.0.0.0
+```
+
+Esto nos permitira conectarnos desde cualquier dispositivo a MariaDB.
+
+Reiniciamos el servicio MariaDB:
+
+```bash
+sudo systemctl restart mariadb
+```
+
+**Comandos útiles del servicio**
+
+| **Acción**                         | **Comando**                      | **Descripción**                                              |
+| ---------------------------------- | -------------------------------- | ------------------------------------------------------------ |
+| **Iniciar el servicio**            | `sudo systemctl start mariadb`   | Inicia el servidor MariaDB.                                  |
+| **Detener el servicio**            | `sudo systemctl stop mariadb`    | Detiene el servidor MariaDB.                                 |
+| **Reiniciar el servicio**          | `sudo systemctl restart mariadb` | Reinicia el servidor.                                        |
+| **Ver estado del servicio**        | `sudo systemctl status mariadb`  | Muestra si el servidor está activo o inactivo.               |
+| **Habilitar inicio automático**    | `sudo systemctl enable mariadb`  | Configura el servicio para iniciarse al arrancar el sistema. |
+| **Deshabilitar inicio automático** | `sudo systemctl disable mariadb` | Evita que el servicio se inicie automáticamente.             |
+| **Ver versión instalada**          | `mariadb --version`              | Muestra la versión actual de MariaDB instalada.              |
+
+
+**Ver puerto utilizado por MariaDB**
+
+MariaDB utiliza por defecto el puerto 3306/tcp
+
+```bash
+sudo ss -punta | grep mariadb
+```
+
+![Alt](/images/puerto%20mariadb.PNG)
+
 #### 1.1.5 XDebug
 #### 1.1.6 Servidor web seguro (HTTPS)
 Creación de los certificados SSL en apache.
