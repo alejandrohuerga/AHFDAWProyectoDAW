@@ -31,7 +31,7 @@
         - [Borrar regla V6 del cortafuegos](#borrar-regla-v6-del-cortafuegos)
         - [Instalación del servicio ssh](#instalación-del-servicio-ssh)
         - [Comprobación del servicio ssh](#comprobación-del-servicio-ssh)
-      - [1.1.2 Instalación del servidor web](#112-instalación-del-servidor-web)
+      - [1.1.2 Instalación del servidor web HTTP](#112-instalación-del-servidor-web-http)
         - [Instalación](#instalación)
           - [Actualizamos Ubuntu server](#actualizamos-ubuntu-server)
           - [Instalamos apache2](#instalamos-apache2)
@@ -236,7 +236,7 @@ sudo systemctl enable ssh
 ssh nombreUsuarioMaquina@IPmaquina
 ```
 
-#### 1.1.2 Instalación del servidor web
+#### 1.1.2 Instalación del servidor web HTTP
 
 ##### Instalación
 
