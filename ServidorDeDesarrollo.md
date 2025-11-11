@@ -1,3 +1,28 @@
+|  |
+|:-----------:|
+|![Alt](images/portada.jpg)|
+| INSTALACIÓN, CONFIGURACIÓN Y DOCUMENTACIÓN DEL SERVIDOR DE DESARROLLO |
+
+
+- [Reiniciamos el servicio php8.3-fpm](#reiniciamos-el-servicio-php83-fpm)
+        - [Configuracion](#configuracion-4)
+        - [Monitorizacion](#monitorizacion-4)
+        - [Mantenimiento](#mantenimiento-4)
+      - [1.1.4 MariaDB](#114-mariadb)
+        - [Instalacion](#instalacion-4)
+        - [Configuracion](#configuracion-5)
+        - [Monitorizacion](#monitorizacion-5)
+        - [Mantenimiento](#mantenimiento-5)
+      - [1.1.5 XDebug](#115-xdebug)
+        - [Instalacion](#instalacion-5)
+        - [Configuracion](#configuracion-6)
+        - [Monitorizacion](#monitorizacion-6)
+        - [Mantenimiento](#mantenimiento-6)
+      - [1.1.6 DNS](#116-dns)
+      - [1.1.7 SFTP](#117-sftp)
+      - [1.1.8 Apache Tomcat](#118-apache-tomcat)
+      - [1.1.9 LDAP](#119-ldap)
+
 ## 1. Entorno de Desarrollo
 
 ### 1.1 Ubuntu Server 24.04.3 LTS
@@ -353,17 +378,41 @@ https://www.php.net/manual/es/install.fpm.php
 # --- Actualizar paquetes y preparar el sistema ---
 # Se asegura que todos los paquetes estén actualizados y se instalan
 # herramientas necesarias para añadir modulos externos.
-
+```
+```bash
 sudo apt install php8.3-fpm php8.3
-
+```
+```bash
 # Reiniciamos el servicio php8.3-fpm
-
+```
+```bash
 sudo systemctl restart php8.3-fpm
 
 ```
 
 ##### Configuracion
+Para habilitar los modulos Proxy_FCGI y SetEnvif
+```bash
+sudo a2enmod proxy_fcgi setenvif
+```
 
+### **Activarlo para cada virtualhost**
+
+Para que se comunique entre php y el apache
+ 
+Se pone esta expresion en el archivo /etc/apache2/sites-available/000-default.conf
+
+```bash
+  ProxyPassMatch ^/(.*\.php)$ unix:/run/php/php8.3-fpm.sock|fcgi://127.0.0.1/var/www/html
+```
+![Alt](images/apache2000DefaultPHP.png)
+
+  
+Por último activamos (o comprobamos que esta activado):
+
+```bash
+sudo a2enconf php8.3-fpm
+```
 El archivo principal de configuración de PHP-FPM se encuentra en ``/etc/php/8.3/fpm/php.ini``.
 
 Hacemos una copia de seguridad de `php.ini` y despues lo editamos cambiando estos valores:

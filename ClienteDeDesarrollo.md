@@ -1,3 +1,29 @@
+# CLIENTE DE DESARROLLO
+|  DAW/DWES Tema2 |
+|:-----------:|
+|![Alt](images/portada.jpg)|
+| INSTALACIÓN, CONFIGURACIÓN Y DOCUMENTACIÓN DEL CLIENTE DE DESARROLLO |
+
+
+- [CLIENTE DE DESARROLLO](#cliente-de-desarrollo)
+    - [2 Windows 11](#2-windows-11)
+      - [2.1 **Configuración inicial**](#21-configuración-inicial)
+        - [**Nombre y configuración de red**](#nombre-y-configuración-de-red)
+        - [**Cuentas administradoras**](#cuentas-administradoras)
+      - [2.2 **Navegadores**](#22-navegadores)
+      - [2.3 **MovaXterm**](#23-movaxterm)
+      - [2.4 **Netbeans**](#24-netbeans)
+        - [Creacion de proyectos](#creacion-de-proyectos)
+        - [Eliminacion de proyectos](#eliminacion-de-proyectos)
+        - [Informacion del IDE](#informacion-del-ide)
+      - [2.5 **Visual Studio Code**](#25-visual-studio-code)
+        - [Como crear un Workspace](#como-crear-un-workspace)
+        - [Conexion SFTP con maquina de desarrollo](#conexion-sftp-con-maquina-de-desarrollo)
+        - [Control de versiones](#control-de-versiones)
+        - [Debug PHP (Xdebug)](#debug-php-xdebug)
+        - [Connexion con la BBDD (MariaDB)](#connexion-con-la-bbdd-mariadb)
+        - [Informacion del IDE](#informacion-del-ide-1)
+
 ### 2 Windows 11
 #### 2.1 **Configuración inicial**
 ##### **Nombre y configuración de red**
