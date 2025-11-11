@@ -15,14 +15,6 @@ CFGS Desarrollo de Aplicaciones Web
 - [3. Entorno de Explotación](EntornoExplotacion.md)
 
 
-> **Alejandro De la Huerga Fernández**  
-CFGS Desarrollo de Aplicaciones Web
-- [1. Entorno de desarrollo](EntornoDesarrollo.md)
-- [2. Windows 11](Windows11.md)
-- [2. GitHub](GitHub.md)
-- [3. Entorno de Explotación](EntornoExplotacion.md)
-
-
 > **Alejandro De la Huerga**  
 > Curso: 2025/2026  
 > 2º Curso CFGS Desarrollo de Aplicaciones Web  
