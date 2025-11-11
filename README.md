@@ -5,12 +5,22 @@
 |:-----------:|
 |![Logo del módulo DAW](images/portada.jpg)|
 | DESPLIEGUE DE APLICACIONES WEB
+|![Logo del módulo DAW](images/portada.jpg)|
+| DESPLIEGUE DE APLICACIONES WEB
 | CYBERSEGURIDAD
 | DAWES Tema 2. INSTALACIÓN, CONFIGURACIÓN Y DOCUMENTACIÓN DE ENTORNO DE DESARROLLO Y DEL ENTORNO DE EXPLOTACIÓN |
 
 CFGS Desarrollo de Aplicaciones Web
 - [1. Servidor de Desarrollo](ServidorDesarrollo.md)
 - [2. Cliente de Desarrollo](ClienteDeDesarrollo.md)
+- [2. GitHub](GitHub.md)
+- [3. Entorno de Explotación](EntornoExplotacion.md)
+
+
+> **Alejandro De la Huerga Fernández**  
+CFGS Desarrollo de Aplicaciones Web
+- [1. Entorno de desarrollo](EntornoDesarrollo.md)
+- [2. Windows 11](Windows11.md)
 - [2. GitHub](GitHub.md)
 - [3. Entorno de Explotación](EntornoExplotacion.md)
 
