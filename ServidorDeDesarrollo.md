@@ -30,6 +30,7 @@
       - [Configuracion](#configuracion-3)
       - [Monitorizacion](#monitorizacion-3)
       - [Mantenimiento](#mantenimiento-3)
+  - [Verficación del servicio](#verficación-del-servicio)
       - [Virtual Hosts](#virtual-hosts)
       - [Permisos y usuarios](#permisos-y-usuarios)
       - [HTTPS](#https)
@@ -83,7 +84,15 @@ df -h       # Para ver las particiones
 fdisk -l    # # Para ver las particiones (fromato mas limpio)
 cat /etc/os-release # Ver la verison del SO
 ```
+Para saber que sistema operativo se tiene.
+```bash
+uname -a
+```
 
+Para saber la versión,
+```bash
+lsb_release -a
+```
 ---
 
 Cambiamos el nombre de la maquina con:
@@ -92,27 +101,90 @@ sudo hostnamectl set-hostname <nombre>
 sudo nano /etc/hosts
 ```
 
----
+Para que cambie, en el prompt, hay que cerrar sessión.
+```bash
+exit
+```
 
-Editamos el fichero de configuración del interface de red  **``/etc/netplan``**, con estos datos:
+* Para ver Interfaces de red y sus direcciones IP:
+```bash
+ip a
+```
+* Para ver la tabla de enrutamiento.
+```bash
+ip r
+```
+* Para saber el DNS del servidor.
+```bash
+resolvectl status
+```
+
+* Para comprobar las particiones: 
+  vista jerárquica (disco → particiones → puntos de montaje)
+```bash
+lsblk
+```
+o 
+```bash
+df -h
+```
+o una vista completa del sistema de archivos + permisos.
+```bash
+lsblk -fm
+```
+o mostrar todos los dispositivos, incluso los vacíos o no usados
+```bash
+lsblk -a
+```
+o mostrar solo los nombres, sin formato visual
+```bash
+lsblk -fn
+```
+o listar particiones con detalles del disco físico
+```bash
+fdisk -l
+```
 
 
-```yaml
-# This is the network config written by 'subiquity'network:
+
+Editar el fichero de configuración del interface de red  **/etc/netplan**,
+* Para configurar la red de interface:
+  Se hace una copia de seguridad del archivo de configuración que se encuentra en /etc/netplan. 
+
+```bash
+cd /etc/netplan
+sudo cp 50-cloud-init.yaml 50-cloud-init.yaml.backup
+```
+
+* Para cambiar el nombre del archivo
+```bash
+sudo mv 50-cloud-init.yaml enp0s3.yaml
+```
+
+* Y se edita el fichero /etc/netplan
+
+
+```bash
+# This is the network config written by 'subiquity'
 network:
-  version: 2
   ethernets:
     enp0s3:
       addresses:
-        - 10.199.8.195/22
+       - 10.199.10.98/22
       nameservers:
-        addresses:
-          - 10.151.123.21
-          - 10.151.126.21
-        search: [alejandro.local]
+         addresses:
+         - 10.151.123.21
+         - 10.151.126.21
       routes:
-        - to: default
-          via: 10.199.8.1
+          - to: default
+             via: 10.199.8.1
+         search: [educa.jcyl.es]
+  version: 2
+````
+
+* Para aplicar la configuración
+```bash
+sudo netplan apply
 ```
 
 ##### **Actualizar el sistema**
@@ -164,6 +236,20 @@ Para cambiar entre usuarios hacemos:
 sudo su - <nombre_usuario>
 ```
 
+* Para ver en que grupo está el usuario
+```bash
+cat /etc/group | grep miadmin
+```
+* Para ver los usuarios, y saber su carpeta shell (grep es para filtrar)
+```bash
+cat /etc/passwd | grep nombreUsuario
+```
+
+* Para crear un usuario con una shell concreta
+```bash
+sudo usermod -s /bin/bash miadmin
+```
+
 ##### **Cortafuegos (UFW)**
 
 ###### Instalacion
@@ -178,6 +264,7 @@ sudo ufw allow 22        # Abrimos el puerto 22 (SSH)
 ```
 
 Para eliminar reglas específicas (por ejemplo IPv6 o cualquier otra):
+
 ```bash
 sudo ufw status numbered  # Mostramos reglas con número
 sudo ufw delete <numero_regla>        # Eliminamos la regla con el número correspondiente
@@ -260,14 +347,67 @@ Es compatible con módulos y lenguajes como PHP, ofreciendo gran flexibilidad y 
 sudo apt update
 sudo apt install apache2 -y   # Instalamos Apache
 ```
-##### Configuracion
-```bash
-cat /etc/apache2/apache2.conf   # Mostramos la configuración principal
-cat /etc/apache2/sites-available/000-default.conf  # Configuración del sitio por defecto
-```
-Cambiamos el `None` por `All`, para poder modificar los archivos **``.htaccess``**
 
-![alt text](/images/apacheAllowOverride.png)
+* Verificar el estado del servicio
+```bash
+sudo systemctl status apache2
+```
+* Se abre el puerto 80
+```bash
+sudo ufw allow 80
+```
+* Se borra el puerto 80 v6
+```bash
+sudo ufw status numbered
+```
+```bash
+sudo ufw delete numeroproceso
+```
+
+
+
+##### Configuracion
+
+* Se crea un directorio de errores. 
+
+```bash
+sudo mkdir /var/www/html/error
+sudo touch /var/www/html/error/error.log
+```
+* Y hay que indicarlo en el /etc/apache2/sites-available/000-default, ya antes haremos una copia por si surje algún imprevisto. 
+```bash
+sudo cp 000-default.conf 000-default.conf.backup
+```
+
+```bash
+sudo nano /etc/apache2/sites-available/000-default.conf
+```
+
+
+ErrorLog /var/www/html/error/error.log
+
+![Alt](images/apache2000DefaultError.png)
+
+
+* Modificar apache2.conf para .htaccess
+```bash
+sudo nano /etc/apache2/apache2.conf
+```
+Buscar la sección 
+<Directory /var/www/>
+    Options Indexes FollowSymLinks
+    AllowOverride None
+    Require all granted
+</Directory>
+
+Y cambiar a 
+<Directory /var/www/>
+    Options Indexes FollowSymLinks
+    AllowOverride All
+    Require all granted
+</Directory>
+
+![Alt](images/apache2Conf.png)
 
 Para aplicar los cambios despues de editar usamos:
 ```bash
@@ -316,6 +456,14 @@ sudo apache2ctl configtest
 ```
 
 
+### Verficación del servicio
+* Comprobar si se puede ver el index de Apache2
+```bash
+sudo nano /var/www/html/index.html
+```
+En el navegador se puede con la URL:http//IPServidor/index.html
+
+
 ##### Virtual Hosts
 ##### Permisos y usuarios
 
@@ -339,10 +487,41 @@ sudo chown -R operadorweb:www-data /var/www/html/
 # Y los permisos con:
 sudo chmod -R 775 /var/www/html
 ```
+* Información de los usuarios
+```bash
+id operadorweb
+```
+o
+```bash
+cat /etc/passwd | grep operador
+```
 
+Para cambiar de contraseña
+```bash
+sudo passwd operadorweb
+```
+
+Para cambiar el grupo del propietario (www-data (para web))
+```bash
+sudo chown -R operadorweb:www-data /var/www/html
+```
+Para borrar un usuario de un grupo
+```bash
+sudo gpasswd -d nombreusuario nombregrupo
+```
+Para cambiar permisos
+```bash
+sudo chmod -R 775 /var/www/html
+```
+* Para borrar un usuario
+```bash
+sudo deluser nombreusuario
+```
 Y habilitamos el puerto 80 en el UFW si no esta ya.
 
 ##### HTTPS
+
+Creación de los certificados SSL en Apache.
 
 ![alt text](/images/imagenModeloHTTPS.png)
 
@@ -362,6 +541,7 @@ Organizational Unit Name (eg, section) []:INFORMATICA
 Common Name (e.g. server FQDN or YOUR name) []:ahf-used
 Email Address []:alejandro.huefer@educa.jcyl.es
 ```
+
 Comprobamos que se han creado correctamente los certificados:
 ```bash
 sudo ls -la /etc/ssl/certs/   | grep ahf-used
@@ -369,6 +549,7 @@ sudo ls -la /etc/ssl/private/ | grep ahf-used
 ```
 
 Habilitamnos el modulo ssh, y configuramos un sitio para que lo use.
+
 ```bash
 sudo a2enmod ssl
 sudo systemctl restart apache2
@@ -376,6 +557,8 @@ cd /etc/apache2/sites-available/
 sudo cp default-ssl.conf ahf-used.conf
 sudo nano ahf-used.conf
 ```
+
+
 ![alt text](/images/apacheSiteConfgHTTPS.png)
 
 Habilitamos el sitio y reiniciamos apache para aplicar cambios.
