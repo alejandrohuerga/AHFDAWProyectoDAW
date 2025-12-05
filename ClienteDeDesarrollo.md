@@ -11,7 +11,7 @@
         - [**Nombre y configuración de red**](#nombre-y-configuración-de-red)
         - [**Cuentas administradoras**](#cuentas-administradoras)
       - [2.2 **Navegadores**](#22-navegadores)
-      - [2.3 **MovaXterm**](#23-movaxterm)
+      - [2.3 **MobaXterm**](#23-mobaxterm)
       - [2.4 **Netbeans**](#24-netbeans)
         - [Creacion de proyectos](#creacion-de-proyectos)
         - [Eliminacion de proyectos](#eliminacion-de-proyectos)
@@ -30,7 +30,7 @@
 ##### **Cuentas administradoras**
 #### 2.2 **Navegadores**
 
-#### 2.3 **MovaXterm**
+#### 2.3 **MobaXterm**
 
 > **Versión MobaXterm**: MobaXTerm Portable versión 25.2
 
