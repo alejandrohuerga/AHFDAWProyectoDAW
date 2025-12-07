@@ -13,7 +13,10 @@
       - [4. Trabajar con el repositorio](#4-trabajar-con-el-repositorio)
         - [Clonación de un repositorio de GitHub](#clonación-de-un-repositorio-de-github)
         - [Subida de nuestro trabajo a GitHub](#subida-de-nuestro-trabajo-a-github)
-      - [6. Comandos básicos de git](#6-comandos-básicos-de-git)
+      - [5. .gitignore](#5-gitignore)
+      - [6. Ramas en git](#6-ramas-en-git)
+      - [7. Commits](#7-commits)
+      - [8. Comandos básicos de git](#8-comandos-básicos-de-git)
 
 # 3-Git-y-GitHub
 
@@ -174,7 +177,29 @@ Una vez que hayamos trabajado en nuestro proyecto es momento de coordinar los ca
 
 4. **Comprobamos que los cambios se han subido al repositorio remoto**
 
-#### 6. Comandos básicos de git
+#### 5. .gitignore
+
+Archivo medfiante el cual le indicamos a git que archivos o directorios de nuestro repositorio no queremos que haga seguimiento y que no incluya en los commits y push.
+
+Para trabajar con el simplemente tenemos que poner en el archivo el nombre de aquellos archivos o directorios.
+
+![Ejemplo .gitignore](images/ejemplo%20.gitignore.png)
+
+#### 6. Ramas en git
+
+Las ramas son aquellas direcciones de trabajo mediante las cuales podemos desarrollar nuestro código o proyecto sin la necesidad de hacerlo todo en la rama master o dividiendo asi el trabajo por equipos o funcionalidades.
+
+![Ramas git](images/gitBranches.png)
+
+#### 7. Commits
+
+Los commit son los cambios guardados que hacemos en nuestro proyecto , son imagenes de nuestros cambios , normalmente van acompañados de un mensaje explicativo sobre lo que se ha hecho en dicho commit.
+
+Antes de hacer un commit debemos tener en cuenta que debemos hacer un add de nuestro cambios y agregarlos al area de stage.
+
+![Commit git](images/commitGit.png)
+
+#### 8. Comandos básicos de git
 
   *El siguiente enlace de la web oficial de git nos muestra una guia con los comandos mas básicos para comenzar en git*
 

@@ -12,6 +12,9 @@
         - [**Cuentas administradoras**](#cuentas-administradoras)
       - [2.2 **Navegadores**](#22-navegadores)
       - [2.3 **MobaXterm**](#23-mobaxterm)
+      - [Descargar](#descargar)
+        - [Conexión por SSH](#conexión-por-ssh)
+        - [Conexión por SFTP](#conexión-por-sftp)
       - [2.4 **Netbeans**](#24-netbeans)
         - [Creacion de proyectos](#creacion-de-proyectos)
         - [Eliminacion de proyectos](#eliminacion-de-proyectos)
@@ -32,11 +35,16 @@
 
 #### 2.3 **MobaXterm**
 
+#### Descargar
+
 > **Versión MobaXterm**: MobaXTerm Portable versión 25.2
 
 > **Enlance de descargar**: https://mobaxterm.mobatek.net/download-home-edition.html
 
-Para crear una nueva sesion de usuario le damos aqui (Session):
+
+##### Conexión por SSH
+
+Para crear una nueva conexión por SSH, le damos aqui (Session):
 
 ![alt text](/images/menuSessionButton.png)
 
@@ -48,7 +56,17 @@ Elegiremos SSH y pondremos la IP del servidor, marcamos la casilla y ponemos nue
 
 Al darle a Ok nos pedira la contraseña. Se la ponemos y ya estaria creada la sesion para poder administrar el servidor.
 
+##### Conexión por SFTP
 
+El primer paso sera darle al boton de Session para crear una nueva sesión.
+
+![alt text](/images/conexionSFTP.png)
+
+Se nos abrira una ventana debajo la cual debemos de rellenar con los datos solicitados.
+
+![alt text](/images/datos%20SFTP.png)
+
+Una vez rellenados los datos que nos pide le damos al botón de OK y ya tendriamos nuestra conexión SFTP.
 
 #### 2.4 **Netbeans**
 
