@@ -48,6 +48,8 @@
       - [Configuración](#configuración-3)
       - [Monitorización](#monitorización-3)
     - [1.12 Sitios virtuales](#112-sitios-virtuales)
+      - [Tipos de Virtual Host](#tipos-de-virtual-host)
+      - [Configuración del sitio1](#configuración-del-sitio1)
 
 
 # SERVIDOR DE DESARROLLO
@@ -1152,6 +1154,197 @@ https://10.199.8.153/phpmyadmin/
 
 ### 1.12 Sitios virtuales
 
+Apache nos permite alojar varios sitios web en el mismo servidor usando:
 
+> El mismo servidor físico
+> La misma dirección IP.
+> Puertos diferentes o el mismo puerto.
+> Distintos nombres de dominio o carpetas raiz.
+
+
+Los sitios web se configuran un los archivos .conf dentro de: **/etc/apache2/sites-available/**
+
+Para activarlos utilizaremos el siguiente comando:
+
+```bash
+sudo a2ensite archivo.conf
+```
+
+#### Tipos de Virtual Host
+
+> Virtual Host por nombre
+
+Es el sitio virtual mas común , apache decide que sitio mostrar dependiendo el dominio que ingrese el usuario.
+
+Todos pueden usar la misma IP pero Apache sabe cual mostrar gracias al dominio.
+
+Ejemplo de configuración:
+
+```bash
+<VirtualHost *:80>
+    ServerName www.miweb.com
+    DocumentRoot /var/www/miweb
+</VirtualHost>
+
+<VirtualHost *:80>
+    ServerName tienda.miweb.com
+    DocumentRoot /var/www/tienda
+</VirtualHost>
+```
+
+> Virtual Host por puerto
+
+Segun el puerto se muestra un sitio u otro.
+
+Lo típico es:
+
+- Puerto 80: HTTP
+- Puerto 443: HTTPS
+  
+Ejemplo de configuración:
+
+```bash
+<VirtualHost *:80>
+    ServerName ahf-used
+    DocumentRoot /var/www/html
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName ahf-used
+    DocumentRoot /var/www/html
+    SSLEngine on
+    SSLCertificateFile /etc/ssl/certs/ahf-used.crt
+    SSLCertificateKeyFile /etc/ssl/private/ahf-used.key
+</VirtualHost>
+```
+
+> Virtual Host por IP
+
+Cada sitio tiene su propia IP. Se usa muy poco hoy en dia.
+
+**Sitios virtuales que ya tenemos**
+
+Como deciamos anteriromente podemos acceder a estos archivos .conf en el siguiente directorio:
+
+```bash
+/etc/apache2/sites-available/
+```
+
+> 000-default.conf — sitio HTTP por defecto.
+> 
+> default-ssl.conf — sitio HTTPS por defecto.
+> 
+> wordpress.conf — tu sitio WordPress.
+> 
+> ahf-used.conf — tus certificados.
+
+Cuando activamos un sitio nuevo se copia simbolicamente en:
+
+```bash
+/etc/apache2/sites-enabled/
+```
+
+**Como sabe Apache que sitio usar**
+
+Utilizando el siguiente comando:
+
+```bash
+sudo apache2ctl -S
+```
+Nos indiara la siguiente ingormación:
+
+
+- Qué sitio usa el puerto 80
+- Qué sitio usa el puerto 443
+- Qué archivo .conf controla cada uno
+- Qué ServerName tiene cada uno
+
+
+#### Configuración del sitio1
+
+Vamos a crear un nuevo sitio virtual en el cual solo puede actuar el usuarioenjaulado1 el cual creamos anteriromente.
+
+- Lo primero que debemos hacer en Plesk es crear un nuevo DNS - hOSTING Y dns -> DNS -> Nuevo registro
+
+![Alt](/images/agregar%20DNS%20Plesk.png)
+
+- Rellenamos con los datops de nuestro servisdor en local.
+
+![Alt](/images/datos%20DNS%20Plesk%20nuevo%20sitio.png)
+
+- Nos saldra un aviso y le daremos a actualizar.
+
+![Alt](/images/aviso%20nuevo%20DNS.png)
+
+**Configuración del sitio1 en apache**
+
+- Por si no tenemos la carpeta error en el directorio de usuarioenjaulado, la creamos y le damos permisos igual que a httpdocs.
+
+```bash
+sudo mkdir /var/www/usuarioenjaulado1/error
+sudo chmod 2775 -R /var/www/usuarioenjaulado1/error
+sudo chown usuarioenjaulado1:www-data -R /var/www/usuarioenjaulado1/error
+```
+
+- Hacemos copia de seguridad del archivo por defecto para los sitio http y abrimos la copia en este caso sitio1.conf
+
+```bash
+sudo cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/sitio1.conf
+sudo nano /etc/apache2/sites-available/sitio1.conf
+```
+
+- Por si necesitamos hacer la copia del archivo para https en vez del otro.
+
+
+```bash
+sudo cp /etc/apache2/sites-available/default-ssl.conf /etc/apache2/sites-available/sitio1.conf
+```
+
+Configuramos el archivo sitio1.conf (el que era http).
+
+```bash
+<VirtualHost *:80>
+
+  ServerName sitio1.alejandrohuefer.ieslossauces.es
+
+  ServerAdmin webmaster@localhost
+  DocumentRoot /var/www/usuarioenjaulado1/httpdocs
+
+  ErrorLog ${APACHE_LOG_DIR}/error-sitio1.log
+  ErrorLog /var/www/usuarioenjaulado1/error/error.log
+  CustomLog ${APACHE_LOG_DIR}/access-sitio1.log combined
+  ProxyPassMatch ^/(.*\.php)$ unix:/run/php/php8.3-fpm.sock|fcgi://127.0.0.1/var/www/usuarioenjaulado1/httpdocs
+
+</VirtualHost>
+```
+
+- Quedaria asi el archivo:
+
+![Alt](/images/configuracion%20sitio1.png)
+
+- Lo siguiente sera habilitar y asegurarnos que la configuración no tenga errores.
+
+
+```bash
+# Habilita el nuevo sitio
+sudo a2ensite sitio1.conf
+
+# Deshabilita el sitio por defecto de Apache (opcional, si no lo necesitas)
+sudo a2dissite 000-default.conf
+
+# Verifica que la configuración de Apache no tenga errores
+sudo apache2ctl configtest
+
+# Recarga el servicio de Apache para aplicar los cambios
+sudo systemctl reload apache2
+```
+
+**Unicamente deberia de haber 3 sisitos activos (000-default.conf, sitio1.conf y ahf-used.conf)**
+
+Para ver que sitios tenemos activos utilizamos el siguiente comando:
+
+```bash
+apache2ctl -S
+```
 
 
