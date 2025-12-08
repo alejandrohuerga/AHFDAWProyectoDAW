@@ -37,6 +37,7 @@
       - [Mantenimiento](#mantenimiento-2)
     - [1.6 Servidor Web seguro (HTTPS)](#16-servidor-web-seguro-https)
       - [Instalación](#instalación-3)
+      - [Redirección de HTTP A HTTPS](#redirección-de-http-a-https)
     - [1.7 DNS](#17-dns)
     - [1.8 SFTP](#18-sftp)
       - [Enjaular usuarios](#enjaular-usuarios)
@@ -946,7 +947,21 @@ Organizational Unit Name (eg, section) []:INFORMATICA
 Common Name (e.g. server FQDN or YOUR name) []:ahf-used
 Email Address []:alejandro.huefer@educa.jcyl.es
 ```
+#### Redirección de HTTP A HTTPS
 
+Activamos el módulo:
+
+```bash
+sudo a2enmod rewrite
+```
+
+En el archivo .htaccess:
+
+```bash
+RewriteEngine On
+RewriteCond %{SERVER_PORT} 80
+RewriteRule ^(.*)$ https://192.168.1.100/$1 [R,L]
+```
 Comprobamos que se han creado
 
 ```bash
