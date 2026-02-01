@@ -50,6 +50,12 @@
     - [1.12 Sitios virtuales](#112-sitios-virtuales)
       - [Tipos de Virtual Host](#tipos-de-virtual-host)
       - [Configuración del sitio1](#configuración-del-sitio1)
+    - [1.13 Documentación](#113-documentación)
+      - [Comprobación de requisitos y extensiones.](#comprobación-de-requisitos-y-extensiones)
+      - [Instalación](#instalación-5)
+        - [Actualización del servidor](#actualización-del-servidor)
+        - [Descarga e instalación de phpDocumentor.phar](#descarga-e-instalación-de-phpdocumentorphar)
+        - [Uso de phpDocumentor](#uso-de-phpdocumentor)
 
 
 # SERVIDOR DE DESARROLLO
@@ -1346,5 +1352,101 @@ Para ver que sitios tenemos activos utilizamos el siguiente comando:
 ```bash
 apache2ctl -S
 ```
+
+
+### 1.13 Documentación
+
+En el siguiente aparatado vamos a documentar como se instala y el uso apropiado de phpDocumentor desde el 
+Servidor de Desarrollo.
+
+#### Comprobación de requisitos y extensiones.
+
+* Lo primero que vamos hacer sera comprobar la versión de PHP que tenemos instalada en nuestro servidor.
+En nuestro caso PHP 8.5.0.
+
+```bash
+php -v
+```
+
+* Una vez comprobada la versión necesitamos instalar las extensiones requeridas por PHP para poder utilizar phpDocumentor.
+
+```bash
+sudo apt install php8.5-xml php8.5-mbstring php8.5-zip
+```
+
+**php8.5-xml:** Necesaria para leer la configuración y plantillas de phpDocumentor.  
+**php8.5-mbstring:** Necesaria para la lectura de cadenas de texto con diferentes carácteres.  
+**php8.5-zip:** Proporciona funciones de alto nivel para gestionar archivos comprimidos.  
+
+* Una vez instaladas comprobamos que se han instalado correctamente:
+
+```bash
+sudo apt install php8.5-xml php8.5-mbstring php8.5-zip
+```
+
+![Alt](/images/comprobar%20extensiones%20PHPDocumentor.png)
+
+
+#### Instalación
+
+Una vez comprobados los requisitos en cuanto al PHP se refiere vamos a proceder con la instalación.
+
+##### Actualización del servidor
+
+```bash
+sudo apt update
+sudo apt upgrade
+```
+
+##### Descarga e instalación de phpDocumentor.phar
+
+* Lo primero que vamos hacer para realizar la instalación sera descargar el archivo .phar para ello utilizamos
+el siguiente comando:
+
+```bash
+wget https://phpdoc.org/phpDocumentor.phar
+```
+
+* Una vez descargado, lo que vamos hacer sera pasar el archivo al servidor y otorgarle los permisos necesarios.
+
+```bash
+sudo chmod +x phpDocumentor.phar
+```
+
+* Lo movemos a una ubicación global como **/usr/local/bin y lo renombramos.
+Esto os permitira poder ejecutarlo desde cualquier lugar.
+
+```bash
+sudo mv phpDocumentor.phar /usr/local/bin/phpdoc
+```
+
+![Alt](/images/comprobacion%20de%20ejecutable%20phpdoc.png)
+
+##### Uso de phpDocumentor
+
+Una vez comprobado que esta bien instalado el ejecutable vamos a probar su funcionamiento en un proyecto real.
+
+* En nuestro caso vamos a utilizar un proyecto que ya tenemos realizado.
+
+* Para ello vamos a dirigirnos a la ruta donde se encuentra nuestro proyecto.
+
+```bash
+cd /var/www/html/AHFDWESAplicacionFinal
+```
+
+* Para que no nos de error en la creación de la carpeta doc dentro del proyecto tenemos que darle permisos.
+
+```bash
+sudo chmod -R 775 /var/www/html/AHFDWESAplicacionFinal
+```
+
+* Una vez dados los permisos ya podemos ejecutar phpDoc con el siguiente comando:
+
+![Alt](/images/generación%20de%20documentación.png)
+
+Para comprobar la generación de la documentación , podemos comprobarla en la carpeta docs , en el index generado por phpDocumentor.
+
+
+
 
 
