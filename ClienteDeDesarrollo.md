@@ -6,34 +6,40 @@
 
 
 - [CLIENTE DE DESARROLLO](#cliente-de-desarrollo)
-    - [2 Windows 11](#2-windows-11)
-      - [2.1 **Configuración inicial**](#21-configuración-inicial)
+    - [Windows 11](#windows-11)
+      - [1.1 **Configuración inicial**](#11-configuración-inicial)
         - [**Nombre y configuración de red**](#nombre-y-configuración-de-red)
         - [**Cuentas administradoras**](#cuentas-administradoras)
-      - [2.2 **Navegadores**](#22-navegadores)
-      - [2.3 **MobaXterm**](#23-mobaxterm)
+      - [1.2 **Navegadores**](#12-navegadores)
+      - [1.3 **MobaXterm**](#13-mobaxterm)
       - [Descargar](#descargar)
         - [Conexión por SSH](#conexión-por-ssh)
         - [Conexión por SFTP](#conexión-por-sftp)
-      - [2.4 **Netbeans**](#24-netbeans)
+      - [1.4 **Netbeans**](#14-netbeans)
         - [Creacion de proyectos](#creacion-de-proyectos)
         - [Eliminacion de proyectos](#eliminacion-de-proyectos)
         - [Informacion del IDE](#informacion-del-ide)
-      - [2.5 **Visual Studio Code**](#25-visual-studio-code)
+      - [1.5 **Visual Studio Code**](#15-visual-studio-code)
         - [Como crear un Workspace](#como-crear-un-workspace)
         - [Conexion SFTP con maquina de desarrollo](#conexion-sftp-con-maquina-de-desarrollo)
         - [Control de versiones](#control-de-versiones)
         - [Debug PHP (Xdebug)](#debug-php-xdebug)
         - [Connexion con la BBDD (MariaDB)](#connexion-con-la-bbdd-mariadb)
         - [Informacion del IDE](#informacion-del-ide-1)
+    - [Documentación](#documentación)
+      - [Requisitos mínimos](#requisitos-mínimos)
+      - [Instalación de php en Windows](#instalación-de-php-en-windows)
+      - [Descarga de phpDocumentor](#descarga-de-phpdocumentor)
+      - [Visual Studio Code](#visual-studio-code)
+      - [NetBeans](#netbeans)
 
-### 2 Windows 11
-#### 2.1 **Configuración inicial**
+###  Windows 11
+#### 1.1 **Configuración inicial**
 ##### **Nombre y configuración de red**
 ##### **Cuentas administradoras**
-#### 2.2 **Navegadores**
+#### 1.2 **Navegadores**
 
-#### 2.3 **MobaXterm**
+#### 1.3 **MobaXterm**
 
 #### Descargar
 
@@ -68,7 +74,7 @@ Se nos abrira una ventana debajo la cual debemos de rellenar con los datos solic
 
 Una vez rellenados los datos que nos pide le damos al botón de OK y ya tendriamos nuestra conexión SFTP.
 
-#### 2.4 **Netbeans**
+#### 1.4 **Netbeans**
 
 
 ##### Creacion de proyectos
@@ -142,7 +148,7 @@ Una vez le damos, nos preguntara si queremos tambien eliminar todos los archivos
 > **Link Descarga Version**: https://netbeans.apache.org/front/main/download/nb20/ \
 > **Modulos Instalados**: 0
 
-#### 2.5 **Visual Studio Code**
+#### 1.5 **Visual Studio Code**
 
 ***Primero que nada, importante instalar estas extensiones. Mas adelante explicare como usar las obligatorias:***
 
@@ -295,10 +301,11 @@ Una vez en el, en el apartado ***CONNECTIONS*** le damos a ***Add New Connection
 
 Se abrira aun formulario par completar la configuracion de la connexion. Lo rellenamos con los datos necesarios. (Para el usuario administrador de la base de datos, en el `Database` ponemos **mysql** para que tenga acceso a todas las BBDD)
 
-Para ejecutar consultas, primero verificamos cual es la connexion acctiva con la que haremos la consulta hacemos clic aqui y seleccionamos la que queramos:
-![alt text](./images/vscode/DBStatusBar.png)
+Para ejecutar consultas, primero verificamos cual es la connexion activa con la que haremos la consulta hacemos clic aqui y seleccionamos la que queramos:
 
-( ⚠️ Sin terminar ⚠️ )
+![alt text](./images/DBStatusBar.png)
+
+
 
 
 ##### Informacion del IDE
@@ -307,3 +314,116 @@ Para ejecutar consultas, primero verificamos cual es la connexion acctiva con la
 > **Version**: Ultima version (Actualizada automaticamente) \
 > **Link Descarga**: https://code.visualstudio.com/Download \
 > **Extensiones Instaladas**: Las de arriba
+
+
+### Documentación
+
+En este apartado vamos a ver a como realizar la documentación mediante phpDoc desde el Cliente de Desarrollo ya sea Visual Studio Code o NetBeans.
+
+#### Requisitos mínimos
+
+* Sistema Operativo: Windows 10 o superior.
+* PHP: Versión 8.1 o superior.
+* Visual Studio Code.
+* NetBeans.
+* Extensiones php requeridas (DOM, XML, SimpleXML).
+* Espacio de almacenamiento (Al menos 100MB para PHP y phpDocumentor).
+
+#### Instalación de php en Windows
+
+* Lo primero que debemos hacer sera descargar php para Windows: https://windows.php.net/download/
+
+* Descargaremos la versión Thread Safe en formato .zip:
+
+![alt text](./images/descargar%20php%20windows.png)
+
+* Extramos el contenido en una carpeta.
+* Lo siguiente sera realizar la **configuración de las variables de entorno de nuestro sistema.**
+* Click derecho en "Este equipo" -> Propiedades -> Configuración avanzada del sistema -> Variables de entorno.
+
+* En las variables editaremos la variable **Path.**
+* Agregamos la ruta donde hemos puesto nuestro .exe
+* Aceptamos y cerramos.
+
+![alt text](./images/variables%20de%20entorno%20de%20sistema.png)
+
+* Verificamos la instalación de PHP desde el cmd de Windows.
+
+```bash
+php -v
+```
+
+![alt text](./images/verificar%20php%20en%20windows.png)
+
+#### Descarga de phpDocumentor
+
+Una vez instalado php en nuestro Cliente de desarrollo lo que debemos hacer sera descargar phpDocumentor:
+
+* Visitamos la página oficial: https://docs.phpdoc.org/guide/getting-started/installing.html
+* Descargamos el archivo phpDocumentor.phar :    https://phpdoc.org/phpDocumentor.phar
+* Guardamos el archivo en una ruta accesible : C:\Users\aleja\DAW2\Documentacion.
+
+#### Visual Studio Code
+
+En este apartado vamos a ver como configurar y realizar la documentación con phpDocumentor desde Visual Studio Code.
+
+* Lo primero que debbemos tener en cuenta es que Visual Studio Code no genera documentación por si mismo, aqui 
+  todo se hace mediante la terminal.
+
+  1. Abrimos nuestro proyecto en Visual Studio Code.
+  2. Abrimos la terminal con la ruta de nuestro proyecto.
+  3. Comprobamos que la consola de VS Code reconoce el comando de php.
+
+  ![alt text](./images/version%20php%20en%20visual.png)
+
+  **Si no lo reconoce , reiniciamos el Visual Studio Code**
+
+  4. Ejecutamos phpDocumentor de Windows desde la terminal.
+
+```bash
+php C:\Users\aleja\DAW2\Documentacion\phpDocumentor.phar run -d . -t doc
+```
+
+  **Le indicamos la ruta del archivo .phar y la carpeta donde queremos que genera a documentación.**
+
+  ![alt text](./images/realizar%20documentación%20visual%20studio%20code.png)
+
+  Ahora ya podemos comprobar que se ha creado la carpeta en nuestro proyecto con la documentación del mismo.
+
+
+  #### NetBeans
+
+  En el siguiente apartado vamos a ver como realizar la documentación con phpDocumentor desde NetBeans.
+
+  * Configuración de PHP en NetBeans:
+
+  1. Abrir NetBeans
+  2. Ir a **Tools** (Herramientas) -> Options (Opciones).
+  3. Seleccionamos PHP.
+  4. Click en General y selecionamos la ruta del .exe
+
+  ![alt text](./images/php%20.exe%20netbeans.png)
+
+  * Configuración de phpDocumentor en NetBeans.
+
+  1. Ir a **Tools** (Herramientas) -> Options (Opciones).
+  2. Seleccionamos PHP.
+  3. Click en Framework and Tools -> phpDocumentor -> ruta del .phar
+  
+  ![alt text](./images/ruta%20.phar%20NetBeans.png)
+
+  4. Click derecho en el proyecto -> Properties -> Documentation-> Le indicamos la ruta donde queremos que se genere la doc.
+
+  ![alt text](./images/target%20directory%20netbeans.png)
+
+  * Generación de documentación desde NetBeans
+
+  Una vez configurado el NetBeans vamos a generar la documentación.
+
+  1. Click derecho sobre el proyecto.
+  2. Seleccionamos Generate Documentation.
+  3. Nos saldra en consola la realización correcta de la documentación.
+
+
+
+
